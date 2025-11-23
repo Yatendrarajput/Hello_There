@@ -7,5 +7,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// We'll add models here in Day 2
-// For now, keeping it empty for basic setup
+// User Model
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  password          String
+  name              String
+  bio               String?
+  profilePicture    String?
+  city              String?
+  dateOfBirth       DateTime?
+  phone             String?
+  averageRating     Float     @default(0)
+  totalReviews      Int       @default(0)
+  emailVerified     Boolean   @default(false)
+  phoneVerified     Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations (we'll add these later)
+  // interests         UserInterest[]
+  // availability      UserEventAvailability[]
+  // sentRequests      ConnectionRequest[] @relation("SentRequests")
+  // receivedRequests  ConnectionRequest[] @relation("ReceivedRequests")
+  // bookings          Booking[]
+  // messages          Message[]
+  // ratings           Rating[]
+
+  @@map("users")
+}
