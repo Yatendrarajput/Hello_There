@@ -4,8 +4,141 @@ import { Bell, User, Search } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { EventCard } from "../components/EventCard";
+import UserDropdown from "../components/UserDropdown";
 
 const mockEvents = [
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
+  {
+    id: 1,
+    title: "Stand-Up Comedy Night with Kumar",
+    category: "Comedy",
+    date: "Dec 25, 2024",
+    time: "7:00 PM",
+    venue: "Comedy Club Mumbai",
+    price: "₹799",
+    image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&auto=format&fit=crop",
+    availablePeople: 3,
+  },
   {
     id: 1,
     title: "Stand-Up Comedy Night with Kumar",
@@ -49,7 +182,7 @@ const Home = () => {
     showAvailable: false,
   });
 
-  return (
+return (
     <div className="min-h-screen bg-muted/30">
       {/* Top Navigation */}
       <nav className="bg-background border-b border-border sticky top-0 z-50 shadow-sm">
@@ -78,11 +211,9 @@ const Home = () => {
                 <Bell className="w-6 h-6" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
               </button>
-              <button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted transition-colors">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary-dark flex items-center justify-center">
-                  <User className="w-5 h-5 text-primary-foreground" />
-                </div>
-              </button>
+              
+              {/* REPLACE OLD BUTTON WITH THIS */}
+              <UserDropdown />
             </div>
           </div>
         </div>
