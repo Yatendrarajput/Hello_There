@@ -9,12 +9,12 @@ import Login from "./pages/Login";
 import ProfileSetup from "./pages/ProfileSetup";
 import Home from "./pages/Home";
 import Index from "./pages/Index";
+import Profile from "./pages/Profile"; // ADD THIS
 import NotFound from "./pages/NotFound";
 
 function App() {
   const { checkAuth, isAuthenticated } = useAuth();
 
-  // Check authentication status on app load
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -65,6 +65,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ProfileSetup />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />
