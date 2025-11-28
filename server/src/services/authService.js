@@ -83,16 +83,8 @@ class AuthService {
     async getUserById(userId) {
         const user = await prisma.user.findUnique({
             where: { id: userId },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                bio: true,
-                profilePicture: true,
-                city: true,
-                averageRating: true,
-                totalReviews: true,
-                createdAt: true,
+            include: {
+                interests: true,
             },
         });
 
@@ -100,49 +92,81 @@ class AuthService {
             throw new Error('User not found');
         }
 
-        return user;
+        // Format response - remove password and format interests
+        const { password, emailVerified, phoneVerified, dateOfBirth, phone, updatedAt, ...userWithoutSensitiveData } = user;
+
+        const formattedUser = {
+            ...userWithoutSensitiveData,
+            interests: user.interests.map((i) => i.interest),
+        };
+
+        return formattedUser;
     }
 
     // Update user profile
     async updateProfile(userId, updateData) {
-        const { name, bio, city, dateOfBirth, phone } = updateData;
+        const { name, bio, city, dateOfBirth, phone, interests } = updateData;
 
         // Check if user exists
         const user = await prisma.user.findUnique({
             where: { id: userId },
+            include: { interests: true },
         });
 
         if (!user) {
             throw new Error('User not found');
         }
 
-        // Update user
-        const updatedUser = await prisma.user.update({
-            where: { id: userId },
-            data: {
-                ...(name && { name }),
-                ...(bio && { bio }),
-                ...(city && { city }),
-                ...(dateOfBirth && { dateOfBirth: new Date(dateOfBirth) }),
-                ...(phone && { phone }),
-            },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                bio: true,
-                profilePicture: true,
-                city: true,
-                dateOfBirth: true,
-                phone: true,
-                averageRating: true,
-                totalReviews: true,
-                createdAt: true,
-                updatedAt: true,
-            },
+        // Start transaction to update user and interests
+        const updatedUser = await prisma.$transaction(async (tx) => {
+            // Update user basic info
+            const updated = await tx.user.update({
+                where: { id: userId },
+                data: {
+                    ...(name && { name }),
+                    ...(bio !== undefined && { bio }),
+                    ...(city && { city }),
+                    ...(dateOfBirth && { dateOfBirth: new Date(dateOfBirth) }),
+                    ...(phone && { phone }),
+                },
+            });
+
+            // Update interests if provided
+            if (interests && Array.isArray(interests)) {
+                // Delete existing interests
+                await tx.userInterest.deleteMany({
+                    where: { userId },
+                });
+
+                // Add new interests
+                if (interests.length > 0) {
+                    await tx.userInterest.createMany({
+                        data: interests.map((interest) => ({
+                            userId,
+                            interest,
+                        })),
+                    });
+                }
+            }
+
+            // Fetch updated user with interests
+            return await tx.user.findUnique({
+                where: { id: userId },
+                include: {
+                    interests: true,
+                },
+            });
         });
 
-        return updatedUser;
+        // Format interests for response and remove sensitive data
+        const { password, emailVerified, phoneVerified, ...userWithoutPassword } = updatedUser;
+
+        const formattedUser = {
+            ...userWithoutPassword,
+            interests: updatedUser.interests.map((i) => i.interest),
+        };
+
+        return formattedUser;
     }
 }
 
